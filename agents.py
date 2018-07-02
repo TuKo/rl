@@ -12,8 +12,8 @@ class Greedy(object):
         self._rounds = rounds
 
     def update(self, action, reward):
-        self._Q[action] += reward
         self._count[action] += 1
+        self._Q[action] += (reward - self._Q[action]) / self._count[action]
         self._cum_count += 1
 
     def get_action(self):
@@ -24,7 +24,7 @@ class Greedy(object):
         if self._rand_state.random_sample() < self._eps:
             action = self._rand_state.randint(self._k)
         else:
-            action = np.argmax(np.nan_to_num(self._Q / self._count))
+            action = np.argmax(self._Q)
         return action
 
     def reset(self):
