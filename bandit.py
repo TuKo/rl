@@ -13,4 +13,7 @@ class Bandit(object):
         return np.random.normal(self._q_star[action], scale=self._std, size=1)
 
     def reset(self):
+        self._q_star = np.random.normal(loc=self._mean, scale=self._std, size=self._arms)
+
+    def restart(self):
         pass
