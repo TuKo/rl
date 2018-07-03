@@ -2,11 +2,15 @@ import numpy as np
 
 
 class Greedy(object):
-    def __init__(self, epsilon=0.0, k=10, rounds=1):
+    def __init__(self, epsilon=0.0, k=10, rounds=1, Qinit=None):
         self._eps = epsilon
         self._rand_state = np.random.RandomState()
         self._k = k
-        self._Q = np.zeros((k,))
+        if Qinit is None:
+            self._Qinit = np.zeros((k,))
+        else:
+            self._Qinit = Qinit
+        self._Q = np.copy(self._Qinit)
         self._count = np.zeros((k,))
         self._cum_count = 0
         self._rounds = rounds
@@ -28,6 +32,6 @@ class Greedy(object):
         return action
 
     def reset(self):
-        self._Q = np.zeros((self._k,))
+        self._Q = np.copy(self._Qinit)
         self._count = np.zeros((self._k,))
         self._cum_count = 0
